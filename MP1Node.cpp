@@ -353,6 +353,23 @@ void MP1Node::LogMemberList() {
 }
 
 void MP1Node::SendHBSomewhere(Address *src_addr, long heartbeat) {
+	for (vector<MemberListEntry>::iterator it = memberNode->memberList.begin(); it != memberNode->memberList.end(); it++) {
+			Address dst_addr = AddressFromMLE(&(*it));
+			if ((dst_addr == memberNode->addr) == 0 ||
+				((dst_addr == *src_addr) == 0)) {
+					continue;
+			}
+			if ((((double)(rand() % 100))/100) < prob) {
+
+				//stringstream ss;
+				//ss<< "Relaying hb about " << src_addr->getAddress() << " to " << dst_addr.getAddress();
+				//log->LOG(&memberNode->addr, ss.str().c_str());
+				emulNet->ENsend(&memberNode->addr, &dst_addr, (char *)msg, msgsize);
+			} else {
+				//log->LOG(&memberNode->addr, "Not relaying hb");
+			}
+	}
+    free(msg);
 }
 
 /**
