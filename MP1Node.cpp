@@ -218,20 +218,6 @@ bool MP1Node::recvCallBack(void *env, char *data, int size ) {
 	/*
 	 * Your code goes here
 	 */
-}
-
-/**
- * FUNCTION NAME: nodeLoopOps
- *
- * DESCRIPTION: Check if any node hasn't responded within a timeout period and then delete
- * 				the nodes
- * 				Propagate your membership list
- */
-void MP1Node::nodeLoopOps() {
-
-	/*
-	 * Your code goes here
-	 */
 	assert(size >= sizeof(MessageHdr));
 
 		MessageHdr* msg = (MessageHdr*) data;
@@ -291,6 +277,20 @@ void MP1Node::onHeartbeat(Address* addr, void* data, size_t size) {
 
 void MP1Node::UpdateMemberList(Address *addr, long heartbeat)  {
 }
+}
+
+/**
+ * FUNCTION NAME: nodeLoopOps
+ *
+ * DESCRIPTION: Check if any node hasn't responded within a timeout period and then delete
+ * 				the nodes
+ * 				Propagate your membership list
+ */
+void MP1Node::nodeLoopOps() {
+
+	/*
+	 * Your code goes here
+	 */
 
 /**
  * FUNCTION NAME: isNullAddress
@@ -323,6 +323,12 @@ Address MP1Node::getJoinAddress() {
  */
 void MP1Node::initMemberListTable(Member *memberNode) {
 	memberNode->memberList.clear();
+}
+
+void MP1Node::LogMemberList() {
+}
+
+void MP1Node::SendHBSomewhere(Address *src_addr, long heartbeat) {
 }
 
 /**
