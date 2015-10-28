@@ -278,6 +278,15 @@ void MP1Node::onJoin(Address* addr, void* data, size_t size) {
 }
 
 void MP1Node::onHeartbeat(Address* addr, void* data, size_t size) {
+	std::stringstream msg;
+	assert(size >= sizeof(long));
+	long *heartbeat = (long*)data;
+
+	bool newData = UpdateMemberList(addr, *heartbeat);
+		if (newData) {
+				LogMemberList();
+				SendHBSomewhere(addr, *heartbeat);
+		}
 }
 
 void MP1Node::UpdateMemberList(Address *addr, long heartbeat)  {
