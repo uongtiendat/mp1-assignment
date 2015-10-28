@@ -269,6 +269,12 @@ Address AddressFromMLE(MemberListEntry* mle) {
 }
 
 void MP1Node::onJoin(Address* addr, void* data, size_t size) {
+    MessageHdr* msg;
+    size_t msgsize = sizeof(MessageHdr) + sizeof(memberNode->addr) + sizeof(long) + 1;
+    msg = (MessageHdr *) malloc(msgsize * sizeof(char));
+    msg->msgType = JOINREP;
+
+    memcpy((char *)(msg+1), &memberNode->addr, sizeof(memberNode->addr));
 }
 
 void MP1Node::onHeartbeat(Address* addr, void* data, size_t size) {
