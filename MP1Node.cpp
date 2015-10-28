@@ -261,6 +261,13 @@ void MP1Node::onJoin(Address* addr, void* data, size_t size) {
     msg->msgType = JOINREP;
 
     memcpy((char *)(msg+1), &memberNode->addr, sizeof(memberNode->addr));
+    memcpy((char *)(msg+1) + sizeof(memberNode->addr) + 1, &memberNode->heartbeat, sizeof(long));
+    
+	stringstream ss;
+	ss<< "Sending JOINREP to " << addr->getAddress() <<" heartbeat "<<memberNode->heartbeat;
+	log->LOG(&memberNode->addr, ss.str().c_str());
+	emulNet->ENsend(&memberNode->addr, addr, (char *)msg, msgsize);
+	free(msg);
 }
 
 void MP1Node::onHeartbeat(Address* addr, void* data, size_t size) {
@@ -276,6 +283,14 @@ void MP1Node::onHeartbeat(Address* addr, void* data, size_t size) {
 }
 
 void MP1Node::UpdateMemberList(Address *addr, long heartbeat)  {
+	std::stringstream msg;
+		assert(size >= sizeof(long));
+		long *heartbeat = (long*)data;
+
+		//msg << "Heartbeat from " << addr->getAddress() << ": ";
+		//msg << *heartbeat;
+		//log->LOG(&memberNode->addr, msg.str().c_str());
+		//msg.str("");
 }
 }
 
