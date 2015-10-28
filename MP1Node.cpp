@@ -291,6 +291,11 @@ void MP1Node::nodeLoopOps() {
 	/*
 	 * Your code goes here
 	 */
+	UpdateMemberList(&memberNode->addr, ++memberNode->heartbeat);
+
+	SendHBSomewhere(&memberNode->addr, memberNode->heartbeat);
+		return;
+}
 
 /**
  * FUNCTION NAME: isNullAddress
