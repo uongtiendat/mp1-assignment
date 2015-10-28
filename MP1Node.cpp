@@ -262,6 +262,12 @@ void MP1Node::nodeLoopOps() {
     return;
 }
 
+Address AddressFromMLE(MemberListEntry* mle) {
+		Address a;
+		memcpy(a.addr, &mle->id, sizeof(int));
+		return a;
+}
+
 /**
  * FUNCTION NAME: isNullAddress
  *
