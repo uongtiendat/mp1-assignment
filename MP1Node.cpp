@@ -251,6 +251,7 @@ bool MP1Node::recvCallBack(void *env, char *data, int size ) {
 Address AddressFromMLE(MemberListEntry* mle) {
 		Address a;
 		memcpy(a.addr, &mle->id, sizeof(int));
+		memcpy(&a.addr[4], &mle->port, sizeof(short));
 		return a;
 }
 
@@ -283,18 +284,7 @@ void MP1Node::onHeartbeat(Address* addr, void* data, size_t size) {
 }
 
 void MP1Node::UpdateMemberList(Address *addr, long heartbeat)  {
-	std::stringstream msg;
-	assert(size >= sizeof(long));
-	long *heartbeat = (long*)data;
-
-	bool newData = UpdateMemberList(addr, *heartbeat);
-		if (newData) {
-				LogMemberList();
-				SendHBSomewhere(addr, *heartbeat);
-		} else {
-				//log->LOG(&memberNode->addr, "Heartbeat up-to-date.");
-		}
-}
+	
 }
 
 /**
@@ -346,9 +336,20 @@ Address MP1Node::getJoinAddress() {
  */
 void MP1Node::initMemberListTable(Member *memberNode) {
 	memberNode->memberList.clear();
+	MemberListEntry mle = MemberListEntry(id, port);
+	mle.settimestamp(par->getcurrtime());
+	mle.setheartbeat(memberNode->heartbeat);
+	memberNode->memberList.push_back(mle);
 }
 
 void MP1Node::LogMemberList() {
+	stringstream msg;
+	msg << "[";
+	for (vector<MemberListEntry>::iterator it = memberNode->memberList.begin(); it != memberNode->memberList.end(); it++) {
+		msg << it->getid() << ": " << it->getheartbeat() << "(" << it->gettimestamp() << "), ";
+	}
+	msg << "]";
+	//log->LOG(&memberNode->addr, msg.str().c_str());
 }
 
 void MP1Node::SendHBSomewhere(Address *src_addr, long heartbeat) {
