@@ -232,7 +232,33 @@ void MP1Node::nodeLoopOps() {
 	/*
 	 * Your code goes here
 	 */
+	assert(size >= sizeof(MessageHdr));
 
+		MessageHdr* msg = (MessageHdr*) data;
+		Address *src_addr = (Address*)(msg+1);
+
+		size -= sizeof(MessageHdr) + sizeof(Address) + 1;
+		data += sizeof(MessageHdr) + sizeof(Address) + 1;
+
+		switch (msg->msgType) {
+					case JOINREQ:
+						onJoin(src_addr, data, size);
+						onHeartbeat(src_addr, data, size);
+						break;
+				case PING: 
+						onHeartbeat(src_addr, data, size);
+						break;
+				case JOINREP:
+						{
+						memberNode->inGroup = 1;
+						stringstream msg;
+						msg << "JOINREP from " <<  src_addr->getAddress();
+						msg << " data " << *(long*)(data );
+						log->LOG(&memberNode->addr, msg.str().c_str());
+						onHeartbeat(src_addr, data, size);
+						break;
+						}
+					}
     return;
 }
 
