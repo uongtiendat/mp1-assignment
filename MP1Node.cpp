@@ -268,6 +268,15 @@ Address AddressFromMLE(MemberListEntry* mle) {
 		return a;
 }
 
+void MP1Node::onJoin(Address* addr, void* data, size_t size) {
+}
+
+void MP1Node::onHeartbeat(Address* addr, void* data, size_t size) {
+}
+
+void MP1Node::UpdateMemberList(Address *addr, long heartbeat)  {
+}
+
 /**
  * FUNCTION NAME: isNullAddress
  *
