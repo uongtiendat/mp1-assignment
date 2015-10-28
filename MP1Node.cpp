@@ -284,13 +284,16 @@ void MP1Node::onHeartbeat(Address* addr, void* data, size_t size) {
 
 void MP1Node::UpdateMemberList(Address *addr, long heartbeat)  {
 	std::stringstream msg;
-		assert(size >= sizeof(long));
-		long *heartbeat = (long*)data;
+	assert(size >= sizeof(long));
+	long *heartbeat = (long*)data;
 
-		//msg << "Heartbeat from " << addr->getAddress() << ": ";
-		//msg << *heartbeat;
-		//log->LOG(&memberNode->addr, msg.str().c_str());
-		//msg.str("");
+	bool newData = UpdateMemberList(addr, *heartbeat);
+		if (newData) {
+				LogMemberList();
+				SendHBSomewhere(addr, *heartbeat);
+		} else {
+				//log->LOG(&memberNode->addr, "Heartbeat up-to-date.");
+		}
 }
 }
 
