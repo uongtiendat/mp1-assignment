@@ -385,7 +385,6 @@ void MP1Node::LogMemberList() {
 		msg << it->getid() << ": " << it->getheartbeat() << "(" << it->gettimestamp() << "), ";
 	}
 	msg << "]";
-	//log->LOG(&memberNode->addr, msg.str().c_str());
 }
 
 void MP1Node::SendHBSomewhere(Address *src_addr, long heartbeat) {
