@@ -320,12 +320,17 @@ void MP1Node::nodeLoopOps() {
 	for (vector<MemberListEntry>::iterator it = memberNode->memberList.begin(); it != memberNode->memberList.end(); it++) {
 		if (par->getcurrtime() - it->timestamp > timeout) {
 			Address addr = AddressFromMLE(&(*it));
-				ss << "Timing out " << addr.getAddress();
-				log->LOG(&memberNode->addr, ss.str().c_str());
-				ss.str("");
+			ss << "Timing out " << addr.getAddress();
+			log->LOG(&memberNode->addr, ss.str().c_str());
+			ss.str("");
 				
-				vector<MemberListEntry>::iterator next_it = it;
-				vector<MemberListEntry>::iterator next_next_it = it+1;
+			vector<MemberListEntry>::iterator next_it = it;
+			vector<MemberListEntry>::iterator next_next_it = it+1;
+
+			memberNode->memberList.resize(memberNode->memberList.size()-1);
+			it -= 1;
+			LogMemberList();
+			log->logNodeRemove(&memberNode->addr, &addr);
 		}
 	UpdateMemberList(&memberNode->addr, ++memberNode->heartbeat);
 
