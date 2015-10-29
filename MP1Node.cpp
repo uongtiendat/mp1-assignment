@@ -318,7 +318,7 @@ void MP1Node::nodeLoopOps() {
 
 	stringstream ss;
 	for (vector<MemberListEntry>::iterator it = memberNode->memberList.begin(); it != memberNode->memberList.end(); it++) {
-		
+		if (par->getcurrtime() - it->timestamp > timeout) {
 			Address addr = AddressFromMLE(&(*it));
 				ss << "Timing out " << addr.getAddress();
 				log->LOG(&memberNode->addr, ss.str().c_str());
@@ -326,9 +326,7 @@ void MP1Node::nodeLoopOps() {
 				
 				vector<MemberListEntry>::iterator next_it = it;
 				vector<MemberListEntry>::iterator next_next_it = it+1;
-				for (next_it = it; next_next_it != memberNode->memberList.end(); next_it++, next_next_it++) {
-					*next_it = *next_next_it;
-
+		}
 	UpdateMemberList(&memberNode->addr, ++memberNode->heartbeat);
 
 	SendHBSomewhere(&memberNode->addr, memberNode->heartbeat);
