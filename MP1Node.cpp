@@ -314,6 +314,14 @@ void MP1Node::nodeLoopOps() {
 	/*
 	 * Your code goes here
 	 */
+	int timeout = 5;
+
+	stringstream ss;
+	for (vector<MemberListEntry>::iterator it = memberNode->memberList.begin(); it != memberNode->memberList.end(); it++) {
+			//ss << "Current: " << par->getcurrtime() << " ts: " << it->timestamp << " id: "<< it->id;
+		    //log->LOG(&memberNode->addr, ss.str().c_str());
+			//ss.str("");
+
 	UpdateMemberList(&memberNode->addr, ++memberNode->heartbeat);
 
 	SendHBSomewhere(&memberNode->addr, memberNode->heartbeat);
