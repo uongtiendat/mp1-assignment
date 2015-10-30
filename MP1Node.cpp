@@ -244,6 +244,9 @@ bool MP1Node::recvCallBack(void *env, char *data, int size ) {
 						onHeartbeat(src_addr, data, size);
 						break;
 						}
+				default:
+						log->LOG(&memberNode->addr, "Received other msg");
+						break;
 					}
     return;
 }
