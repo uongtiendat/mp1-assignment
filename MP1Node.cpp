@@ -286,7 +286,7 @@ void MP1Node::onHeartbeat(Address* addr, void* data, size_t size) {
 		}
 }
 
-void MP1Node::UpdateMemberList(Address *addr, long heartbeat)  {
+bool MP1Node::UpdateMemberList(Address *addr, long heartbeat)  {
 	vector<MemberListEntry>::iterator it;
 	for (it = memberNode->memberList.begin(); it != memberNode->memberList.end(); it++) {
 		if ((AddressFromMLE(&(*it)) == *addr) == 0) {
